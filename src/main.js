@@ -7,13 +7,14 @@ import './desktop.js';
 import './taskbar.js';
 import './window-manager.js';
 import './filesystem.js';
-import './terminal.js';
+import './terminal.js';                    // ✅ Root terminal - works
 
-// Import apps
+// Import apps (all lowercase)
 import './apps/FileExplorer.js';
 import './apps/TextEditor.js';
 import './apps/Calculator.js';
 import './apps/Settings.js';
+// ❌ REMOVE: import './apps/Terminal.js';
 
 // Configure Fyr
 Fyr.configure({
