@@ -1,0 +1,17 @@
+{
+  "name": "os-simulation",
+  "version": "1.0.0",
+  "description": "Linux Desktop Simulation showcasing full Fyr power",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview"
+  },
+  "dependencies": {
+    "@aldane-dev-create/fyr": "^0.1.2"
+  },
+  "devDependencies": {
+    "vite": "^5.4.0"
+  }
+}

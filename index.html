@@ -1,0 +1,128 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="description" content="Linux Desktop Simulation - Full Fyr Showcase" />
+  <title>Fyr OS</title>
+
+  <!-- ===== CDN DEPENDENCIES ===== -->
+  <!-- WinBox.js -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/winbox@0.2.0/dist/css/winbox.min.css" />
+  <script src="https://cdn.jsdelivr.net/npm/winbox@0.2.0/dist/js/winbox.min.js"></script>
+
+  <!-- xterm.js -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/xterm@5.3.0/css/xterm.css" />
+  <script src="https://cdn.jsdelivr.net/npm/xterm@5.3.0/lib/xterm.min.js"></script>
+
+  <!-- Font Awesome -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+
+  <!-- Styles -->
+  <link rel="stylesheet" href="/src/styles.css" />
+</head>
+<body>
+
+  <div id="app" fyr-app="os">
+
+    <!-- ===== DESKTOP ===== -->
+    <section class="desktop" fyr-controller="desktop">
+
+      <!-- Desktop Icons -->
+      <div class="desktop-icons">
+        <div
+          fyr-for="app in desktopApps"
+          fyr-key="app.id"
+          class="desktop-icon"
+          fyr-dblclick="openApp(app.id)"
+          fyr-click="selectIcon(app.id)"
+          fyr-class="{ selected: selectedIcon === app.id }"
+        >
+          <span class="desktop-icon-icon" fyr-text="app.icon"></span>
+          <span class="desktop-icon-label" fyr-text="app.name"></span>
+        </div>
+      </div>
+
+      <!-- Right-click Context Menu -->
+      <div
+        class="context-menu"
+        fyr-show="contextMenu.visible"
+        fyr-style="{
+          left: contextMenu.x + 'px',
+          top: contextMenu.y + 'px'
+        }"
+      >
+        <div class="context-item" fyr-click="contextAction('refresh')">🔄 Refresh</div>
+        <div class="context-item" fyr-click="contextAction('newFolder')">📁 New Folder</div>
+        <div class="context-divider"></div>
+        <div class="context-item" fyr-click="contextAction('openTerminal')">💻 Open Terminal</div>
+        <div class="context-item" fyr-click="contextAction('settings')">⚙️ Settings</div>
+      </div>
+
+      <!-- ===== WINDOWS CONTAINER ===== -->
+      <div id="windows-container"></div>
+
+    </section>
+
+    <!-- ===== TASKBAR ===== -->
+    <section class="taskbar" fyr-controller="taskbar">
+      <div class="taskbar-inner">
+
+        <!-- Start Button -->
+        <button class="taskbar-start" fyr-click="toggleStartMenu()">
+          <i class="fas fa-bars"></i>
+          <span>Start</span>
+        </button>
+
+        <!-- Running Apps -->
+        <div class="taskbar-apps">
+          <button
+            fyr-for="app in runningApps"
+            fyr-key="app.id"
+            class="taskbar-app"
+            fyr-class="{ active: app.id === activeAppId }"
+            fyr-click="focusApp(app.id)"
+          >
+            <span fyr-text="app.icon"></span>
+            <span fyr-text="app.name"></span>
+          </button>
+        </div>
+
+        <!-- System Tray -->
+        <div class="taskbar-tray">
+          <span class="tray-time" fyr-text="currentTime"></span>
+          <span class="tray-icon">🔊</span>
+          <span class="tray-icon">🔋</span>
+          <span class="tray-icon">👤</span>
+        </div>
+
+      </div>
+
+      <!-- ===== START MENU ===== -->
+      <div class="start-menu" fyr-show="startMenuOpen">
+        <div class="start-menu-header">
+          <span>👤</span>
+          <span>User</span>
+        </div>
+        <div class="start-menu-apps">
+          <div
+            fyr-for="app in allApps"
+            fyr-key="app.id"
+            class="start-menu-app"
+            fyr-click="openApp(app.id); closeStartMenu()"
+          >
+            <span fyr-text="app.icon"></span>
+            <span fyr-text="app.name"></span>
+          </div>
+        </div>
+        <div class="start-menu-footer">
+          <button fyr-click="shutdown()">⏻ Shutdown</button>
+        </div>
+      </div>
+    </section>
+
+  </div>
+
+  <script type="module" src="/src/main.js"></script>
+</body>
+</html>
