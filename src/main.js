@@ -13,7 +13,6 @@ import './terminal.js';
 import './apps/FileExplorer.js';
 import './apps/TextEditor.js';
 import './apps/Calculator.js';
-import './apps/Terminal.js';
 import './apps/Settings.js';
 
 // Configure Fyr
