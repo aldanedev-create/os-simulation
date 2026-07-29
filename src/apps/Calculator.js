@@ -150,45 +150,4 @@ Fyr.controller('calculator', {
     console.log('🧮 Calculator mounted!');
   },
 
-  template: `
-    <div class="calculator">
-      <div class="calc-display">
-        <div class="calc-display-value" fyr-text="display"></div>
-        <div class="calc-display-memory" fyr-show="memory !== 0">M</div>
-      </div>
-
-      <div class="calc-grid">
-        <!-- Row 1 -->
-        <button class="calc-btn calc-btn-clear" fyr-click="clear()">AC</button>
-        <button class="calc-btn calc-btn-clear" fyr-click="clearEntry()">CE</button>
-        <button class="calc-btn calc-btn-operator" fyr-click="percent()">%</button>
-        <button class="calc-btn calc-btn-operator" fyr-click="setOperation('/')">÷</button>
-
-        <!-- Row 2 -->
-        <button class="calc-btn calc-btn-number" fyr-click="inputDigit('7')">7</button>
-        <button class="calc-btn calc-btn-number" fyr-click="inputDigit('8')">8</button>
-        <button class="calc-btn calc-btn-number" fyr-click="inputDigit('9')">9</button>
-        <button class="calc-btn calc-btn-operator" fyr-click="setOperation('*')">×</button>
-
-        <!-- Row 3 -->
-        <button class="calc-btn calc-btn-number" fyr-click="inputDigit('4')">4</button>
-        <button class="calc-btn calc-btn-number" fyr-click="inputDigit('5')">5</button>
-        <button class="calc-btn calc-btn-number" fyr-click="inputDigit('6')">6</button>
-        <button class="calc-btn calc-btn-operator" fyr-click="setOperation('-')">−</button>
-
-        <!-- Row 4 -->
-        <button class="calc-btn calc-btn-number" fyr-click="inputDigit('1')">1</button>
-        <button class="calc-btn calc-btn-number" fyr-click="inputDigit('2')">2</button>
-        <button class="calc-btn calc-btn-number" fyr-click="inputDigit('3')">3</button>
-        <button class="calc-btn calc-btn-operator" fyr-click="setOperation('+')">+</button>
-
-        <!-- Row 5 -->
-        <button class="calc-btn calc-btn-memory" fyr-click="memoryStore()">MS</button>
-        <button class="calc-btn calc-btn-memory" fyr-click="memoryRecall()">MR</button>
-        <button class="calc-btn calc-btn-number" fyr-click="inputDigit('0')">0</button>
-        <button class="calc-btn calc-btn-number" fyr-click="inputDecimal()">.</button>
-        <button class="calc-btn calc-btn-equals" fyr-click="equals()">=</button>
-      </div>
-    </div>
-  `
 });

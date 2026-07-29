@@ -155,47 +155,4 @@ Fyr.controller('explorer', {
     console.log('📁 File Explorer mounted!');
   },
 
-  template: `
-    <div class="explorer">
-      <div class="explorer-toolbar">
-        <button class="tool-btn" fyr-click="goBack()">←</button>
-        <button class="tool-btn" fyr-click="goHome()">🏠</button>
-        <span class="explorer-path" fyr-text="pathDisplay"></span>
-        <div class="explorer-actions">
-          <button class="tool-btn" fyr-click="createFolder()">📁 New</button>
-          <button class="tool-btn" fyr-click="createFile()">📄 New File</button>
-          <button class="tool-btn" fyr-click="toggleView()">
-            <span fyr-text="viewMode === 'list' ? '⊞' : '☰'"></span>
-          </button>
-        </div>
-      </div>
-
-      <div class="explorer-breadcrumbs">
-        <span fyr-for="crumb in breadcrumbs" fyr-key="crumb.path">
-          <a fyr-click="navigate(crumb.path)" fyr-text="crumb.name"></a>
-          <span fyr-show="!$last"> / </span>
-        </span>
-      </div>
-
-      <div class="explorer-content" fyr-class="'view-' + viewMode">
-        <div 
-          fyr-for="item in items" 
-          fyr-key="item.name"
-          class="explorer-item"
-          fyr-class="{ selected: selectedItem === item.name }"
-          fyr-click="selectItem(item.name)"
-          fyr-dblclick="openItem(item.name)"
-        >
-          <span class="item-icon" fyr-text="item.icon"></span>
-          <span class="item-name" fyr-text="item.name"></span>
-          <span class="item-size" fyr-text="item.sizeDisplay"></span>
-          <button class="item-delete" fyr-click="deleteItem(item.name)">✕</button>
-        </div>
-      </div>
-
-      <div fyr-show="items.length === 0" class="explorer-empty">
-        <p>Empty folder</p>
-      </div>
-    </div>
-  `
 });

@@ -121,6 +121,216 @@
       </div>
     </section>
 
+    <!-- ===== APP TEMPLATES (hidden; window-manager.js moves these into windows when opened) ===== -->
+    <div id="app-templates" style="display:none;">
+
+      <!-- File Explorer -->
+      <div class="explorer" fyr-controller="explorer">
+        <div class="explorer-toolbar">
+          <button class="tool-btn" fyr-click="goBack()">←</button>
+          <button class="tool-btn" fyr-click="goHome()">🏠</button>
+          <span class="explorer-path" fyr-text="pathDisplay"></span>
+          <div class="explorer-actions">
+            <button class="tool-btn" fyr-click="createFolder()">📁 New</button>
+            <button class="tool-btn" fyr-click="createFile()">📄 New File</button>
+            <button class="tool-btn" fyr-click="toggleView()">
+              <span fyr-text="viewMode === 'list' ? '⊞' : '☰'"></span>
+            </button>
+          </div>
+        </div>
+
+        <div class="explorer-breadcrumbs">
+          <span fyr-for="crumb in breadcrumbs" fyr-key="crumb.path">
+            <a fyr-click="navigate(crumb.path)" fyr-text="crumb.name"></a>
+            <span fyr-show="!$last"> / </span>
+          </span>
+        </div>
+
+        <div class="explorer-content" fyr-class="'view-' + viewMode">
+          <div
+            fyr-for="item in items"
+            fyr-key="item.name"
+            class="explorer-item"
+            fyr-class="{ selected: selectedItem === item.name }"
+            fyr-click="selectItem(item.name)"
+            fyr-dblclick="openItem(item.name)"
+          >
+            <span class="item-icon" fyr-text="item.icon"></span>
+            <span class="item-name" fyr-text="item.name"></span>
+            <span class="item-size" fyr-text="item.sizeDisplay"></span>
+            <button class="item-delete" fyr-click="deleteItem(item.name)">✕</button>
+          </div>
+        </div>
+
+        <div fyr-show="items.length === 0" class="explorer-empty">
+          <p>Empty folder</p>
+        </div>
+      </div>
+
+      <!-- Text Editor -->
+      <div class="editor-app" fyr-controller="editor">
+        <div class="editor-toolbar">
+          <div class="editor-file-actions">
+            <button class="tool-btn" fyr-click="newFile()">📄 New</button>
+            <button class="tool-btn" fyr-click="openFile()">📂 Open</button>
+            <button class="tool-btn" fyr-click="saveFile()">💾 Save</button>
+            <button class="tool-btn" fyr-click="saveAs()">💾 Save As</button>
+          </div>
+          <div class="editor-format-actions">
+            <button class="tool-btn" fyr-click="decreaseFont()">A-</button>
+            <button class="tool-btn" fyr-click="increaseFont()">A+</button>
+            <button class="tool-btn" fyr-click="toggleWrap()" fyr-text="wrapText ? '📏' : '📐'"></button>
+          </div>
+          <span class="editor-status" fyr-text="statusText"></span>
+        </div>
+
+        <textarea
+          class="editor-content"
+          fyr-ref="editorContent"
+          fyr-style="{
+            fontSize: fontSize + 'px',
+            whiteSpace: wrapText ? 'pre-wrap' : 'pre'
+          }"
+          fyr-on:input="onEdit()"
+          fyr-text="content"
+        ></textarea>
+
+        <div class="editor-footer">
+          <span>Font: <span fyr-text="fontSize"></span>px</span>
+          <span>Words: <span fyr-text="wordCount"></span></span>
+          <span>Lines: <span fyr-text="lineCount"></span></span>
+        </div>
+      </div>
+
+      <!-- Calculator -->
+      <div class="calculator" fyr-controller="calculator">
+        <div class="calc-display">
+          <div class="calc-display-value" fyr-text="display"></div>
+          <div class="calc-display-memory" fyr-show="memory !== 0">M</div>
+        </div>
+
+        <div class="calc-grid">
+          <button class="calc-btn calc-btn-clear" fyr-click="clear()">AC</button>
+          <button class="calc-btn calc-btn-clear" fyr-click="clearEntry()">CE</button>
+          <button class="calc-btn calc-btn-operator" fyr-click="percent()">%</button>
+          <button class="calc-btn calc-btn-operator" fyr-click="setOperation('/')">÷</button>
+
+          <button class="calc-btn calc-btn-number" fyr-click="inputDigit('7')">7</button>
+          <button class="calc-btn calc-btn-number" fyr-click="inputDigit('8')">8</button>
+          <button class="calc-btn calc-btn-number" fyr-click="inputDigit('9')">9</button>
+          <button class="calc-btn calc-btn-operator" fyr-click="setOperation('*')">×</button>
+
+          <button class="calc-btn calc-btn-number" fyr-click="inputDigit('4')">4</button>
+          <button class="calc-btn calc-btn-number" fyr-click="inputDigit('5')">5</button>
+          <button class="calc-btn calc-btn-number" fyr-click="inputDigit('6')">6</button>
+          <button class="calc-btn calc-btn-operator" fyr-click="setOperation('-')">−</button>
+
+          <button class="calc-btn calc-btn-number" fyr-click="inputDigit('1')">1</button>
+          <button class="calc-btn calc-btn-number" fyr-click="inputDigit('2')">2</button>
+          <button class="calc-btn calc-btn-number" fyr-click="inputDigit('3')">3</button>
+          <button class="calc-btn calc-btn-operator" fyr-click="setOperation('+')">+</button>
+
+          <button class="calc-btn calc-btn-memory" fyr-click="memoryStore()">MS</button>
+          <button class="calc-btn calc-btn-memory" fyr-click="memoryRecall()">MR</button>
+          <button class="calc-btn calc-btn-number" fyr-click="inputDigit('0')">0</button>
+          <button class="calc-btn calc-btn-number" fyr-click="inputDecimal()">.</button>
+          <button class="calc-btn calc-btn-equals" fyr-click="equals()">=</button>
+        </div>
+      </div>
+
+      <!-- Settings -->
+      <div class="settings-app" fyr-controller="settings">
+        <h2>System Settings</h2>
+
+        <div class="settings-section">
+          <h3>Appearance</h3>
+          <div class="setting-row">
+            <label>Theme</label>
+            <select fyr-model="theme" fyr-on:change="saveSettings()">
+              <option value="dark">Dark</option>
+              <option value="light">Light</option>
+              <option value="system">System</option>
+            </select>
+          </div>
+
+          <div class="setting-row">
+            <label>Accent Color</label>
+            <input type="color" fyr-model="accentColor" fyr-on:input="saveSettings()" />
+          </div>
+
+          <div class="setting-row">
+            <label>Wallpaper</label>
+            <div class="wallpaper-options">
+              <button class="wallpaper-btn" fyr-click="applyWallpaper('default')">Default</button>
+              <button class="wallpaper-btn" fyr-click="applyWallpaper('https://picsum.photos/1920/1080?random=1')">🌄 Nature</button>
+              <button class="wallpaper-btn" fyr-click="applyWallpaper('https://picsum.photos/1920/1080?random=2')">🌃 City</button>
+              <button class="wallpaper-btn" fyr-click="applyWallpaper('https://picsum.photos/1920/1080?random=3')">🎨 Abstract</button>
+            </div>
+          </div>
+        </div>
+
+        <div class="settings-section">
+          <h3>System</h3>
+          <div class="setting-row">
+            <label>Animations</label>
+            <input type="checkbox" fyr-model="animations" fyr-on:change="toggleAnimations()" />
+          </div>
+
+          <div class="setting-row">
+            <label>Font Size</label>
+            <select fyr-model="fontSize" fyr-on:change="saveSettings()">
+              <option value="small">Small</option>
+              <option value="medium">Medium</option>
+              <option value="large">Large</option>
+            </select>
+          </div>
+
+          <div class="setting-row">
+            <label>Auto-save</label>
+            <input type="checkbox" fyr-model="autoSave" fyr-on:change="saveSettings()" />
+          </div>
+
+          <div class="setting-row">
+            <label>Language</label>
+            <select fyr-model="language" fyr-on:change="saveSettings()">
+              <option value="en">English</option>
+              <option value="es">Español</option>
+              <option value="fr">Français</option>
+              <option value="de">Deutsch</option>
+            </select>
+          </div>
+
+          <div class="setting-row">
+            <label>Telemetry</label>
+            <input type="checkbox" fyr-model="telemetry" fyr-on:change="saveSettings()" />
+          </div>
+        </div>
+
+        <div class="settings-actions">
+          <button class="btn-primary" fyr-click="saveSettings()">Save Settings</button>
+          <button class="btn-secondary" fyr-click="resetSettings()">Reset</button>
+        </div>
+      </div>
+
+      <!-- Terminal -->
+      <div class="terminal-container" fyr-controller="terminal" fyr-ref="terminalContainer">
+        <div class="terminal-output" fyr-ref="terminalOutput"></div>
+        <div class="terminal-input-line">
+          <span class="terminal-prompt-prefix">$</span>
+          <input
+            type="text"
+            class="terminal-input"
+            fyr-ref="terminalInput"
+            fyr-model="currentCommand"
+            fyr-on:keydown="executeCommand($event)"
+            autocomplete="off"
+            spellcheck="false"
+          />
+        </div>
+      </div>
+
+    </div>
+
   </div>
 
   <script type="module" src="/src/main.js"></script>

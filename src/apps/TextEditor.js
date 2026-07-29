@@ -169,39 +169,5 @@ Fyr.controller('editor', {
     console.log('📝 Text Editor mounted!');
   },
 
-  template: `
-    <div class="editor-app">
-      <div class="editor-toolbar">
-        <div class="editor-file-actions">
-          <button class="tool-btn" fyr-click="newFile()">📄 New</button>
-          <button class="tool-btn" fyr-click="openFile()">📂 Open</button>
-          <button class="tool-btn" fyr-click="saveFile()">💾 Save</button>
-          <button class="tool-btn" fyr-click="saveAs()">💾 Save As</button>
-        </div>
-        <div class="editor-format-actions">
-          <button class="tool-btn" fyr-click="decreaseFont()">A-</button>
-          <button class="tool-btn" fyr-click="increaseFont()">A+</button>
-          <button class="tool-btn" fyr-click="toggleWrap()" fyr-text="wrapText ? '📏' : '📐'"></button>
-        </div>
-        <span class="editor-status" fyr-text="statusText"></span>
-      </div>
 
-      <textarea
-        class="editor-content"
-        fyr-ref="editorContent"
-        fyr-style="{
-          fontSize: fontSize + 'px',
-          whiteSpace: wrapText ? 'pre-wrap' : 'pre'
-        }"
-        fyr-on:input="onEdit()"
-        fyr-text="content"
-      ></textarea>
-
-      <div class="editor-footer">
-        <span>Font: <span fyr-text="fontSize"></span>px</span>
-        <span>Words: <span fyr-text="wordCount"></span></span>
-        <span>Lines: <span fyr-text="lineCount"></span></span>
-      </div>
-    </div>
-  `
 });

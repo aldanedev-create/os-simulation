@@ -43,6 +43,7 @@ export function openWindow(appId, title, icon = '📄', options = {}) {
       }));
     },
     onclose: () => {
+      returnAppElement(appId);
       closeWindow(appId);
     },
     ...options
@@ -68,30 +69,14 @@ export function openWindow(appId, title, icon = '📄', options = {}) {
  * Load app content into window
  */
 function loadAppContent(appId, win) {
-  // Find the app controller
+  // Find the already-mounted app element (lives in the hidden #app-templates container)
   const appEl = document.querySelector(`[fyr-controller="${appId}"]`);
   if (appEl) {
-    // Clone the app content
-    const content = appEl.cloneNode(true);
-    content.style.display = 'block';
+    // Move the real element into the window (don't clone — cloneNode() only
+    // copies markup, it drops all of Fyr's event bindings/reactivity).
+    appEl.style.display = 'block';
     win.body.innerHTML = '';
-    win.body.appendChild(content);
-
-    // Re-initialize Fyr on the new content
-    if (appEl.__fyrController) {
-      // The controller already exists, we just need to mount the content
-      const mountEl = win.body.querySelector(`[fyr-controller="${appId}"]`);
-      if (mountEl) {
-        // Mount the controller
-        const controller = appEl.__fyrController;
-        mountEl.__fyrController = controller;
-        controller.el = mountEl;
-        // Re-render
-        if (controller.render) {
-          controller.render();
-        }
-      }
-    }
+    win.body.appendChild(appEl);
   } else {
     // Fallback: show placeholder
     win.body.innerHTML = `
@@ -104,6 +89,16 @@ function loadAppContent(appId, win) {
   }
 }
 
+// Move an app's element back into the hidden template container so it
+// survives the window being destroyed, and reopens with its state intact.
+function returnAppElement(appId) {
+  const appEl = document.querySelector(`[fyr-controller="${appId}"]`);
+  const templates = document.getElementById('app-templates');
+  if (appEl && templates) {
+    appEl.style.display = 'none';
+    templates.appendChild(appEl);
+  }
+}
 function getAppIcon(appId) {
   const icons = {
     explorer: '📁',
